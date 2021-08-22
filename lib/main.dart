@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './question.dart';
-import './answer.dart';
+import 'package:flutter_complete_guide/quiz.dart';
+import 'package:flutter_complete_guide/result.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,22 +16,36 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   var questionIndex = 0;
+  var answerScore = 0;
   final questions = const [
     {
       'questionText': 'What is your name',
-      'answerText': ['alex', 'ali', 'umber']
+      'answers': [
+        {'text': 'alex', 'score': 3},
+        {'text': 'ali', 'score': 4},
+        {'text': 'umber', 'score': 5}
+      ]
     },
     {
       'questionText': 'What is your favourite animal',
-      'answerText': ['cat', 'dog', 'bird']
+      'answers': [
+        {'text': 'cat', 'score': 10},
+        {'text': 'dog', 'score': 5},
+        {'text': 'bird', 'score': 2}
+      ]
     },
     {
       'questionText': 'What is your favourite fruit',
-      'answerText': ['mango', 'orange', 'banana']
+      'answers': [
+        {'text': 'mango', 'score': 21},
+        {'text': 'orange', 'score': 12},
+        {'text': 'banana', 'score': 20}
+      ]
     },
   ];
 
-  void answerQuestion() {
+  void answerQuestion(int score) {
+    answerScore += score;
     if (questionIndex < questions.length) {}
     setState(() {
       questionIndex += 1;
@@ -48,18 +62,11 @@ class MyAppState extends State<MyApp> {
           title: Text('Hello'),
         ),
         body: questionIndex < questions.length
-            ? Column(
-                children: [
-                  Question(questions[questionIndex]['questionText'] as String),
-                  ...(questions[questionIndex]['answerText'] as List<String>)
-                      .map((answerText) {
-                    return Answer(answerQuestion, answerText);
-                  }).toList(),
-                ],
-              )
-            : Center(
-                child: Text("You did it"),
-              ),
+            ? Quiz(
+                questions: questions,
+                answerQuestions: answerQuestion,
+                questionIndex: questionIndex)
+            : Result(answerScore),
       ),
     );
   }
