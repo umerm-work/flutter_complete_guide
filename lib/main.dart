@@ -44,6 +44,13 @@ class MyAppState extends State<MyApp> {
     },
   ];
 
+  void restQuiz() {
+    setState(() {
+      answerScore = 0;
+      questionIndex = 0;
+    });
+  }
+
   void answerQuestion(int score) {
     answerScore += score;
     if (questionIndex < questions.length) {}
@@ -66,7 +73,7 @@ class MyAppState extends State<MyApp> {
                 questions: questions,
                 answerQuestions: answerQuestion,
                 questionIndex: questionIndex)
-            : Result(answerScore),
+            : Result(answerScore,restQuiz),
       ),
     );
   }
